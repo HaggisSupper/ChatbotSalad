@@ -1,0 +1,85 @@
+Create a comprehensive PowerShell script that sets up a complete Python development environment with the following requirements:
+Script Placement & Execution:
+	•	The PS1 script will be placed in the root folder of the intended project directory
+	•	All folder paths must be relative to the script’s location using $PSScriptRoot
+	•	Script must check for and request elevated administrator permissions at startup
+	•	If not running as admin, automatically relaunch itself with elevated privileges
+	•	Design for right-click → “Run with PowerShell” execution workflow
+	•	No hardcoded paths - everything relative to script location
+Core Functionality:
+	1.	Create a structured folder hierarchy for a mobile app project including:
+	•	./src - source code
+	•	./tests - test files
+	•	./docs - documentation
+	•	./config - configuration files
+	•	./logs - log files
+	•	./venv - virtual environment
+	•	./assets - images, icons, resources
+	•	./build - build outputs
+	1.	Python environment setup with UV:
+	•	Check if UV is installed, if not, install it automatically (using irm https://astral.sh/uv/install.ps1 | iex or similar)
+	•	Check if Python is installed (version 3.8+), use UV to install if missing
+	•	Use uv venv to create a Python virtual environment in ./venv
+	•	Activate the virtual environment
+	•	Use uv pip install for all package installations (faster than pip)
+	•	Install dependencies from a requirements.txt file (if provided) or install common mobile app development packages: kivy, kivymd, buildozer, python-for-android, requests, pillow
+	•	Use UV’s lock file capabilities if applicable for reproducible builds
+	1.	File generation and population:
+	•	Create a starter main.py with basic mobile app structure
+	•	Generate a requirements.txt with all dependencies
+	•	Create a config.yaml or config.json for app settings
+	•	Generate a .gitignore appropriate for Python mobile development
+	•	Create a README.md with setup instructions
+	•	Optional: Generate pyproject.toml for modern Python project structure compatible with UV
+UV Package Manager Integration:
+	•	Prioritize UV for all Python environment and package management tasks
+	•	Fall back to traditional pip/venv only if UV installation fails
+	•	Log which package manager is being used (UV vs pip)
+	•	Leverage UV’s speed advantages for faster setup
+	•	Use uv pip compile if generating requirements files
+	•	Support for uv sync if using pyproject.toml format
+Administrator Permissions:
+	•	Check if running with administrator privileges at script start
+	•	If not elevated, display clear message and auto-relaunch with admin rights
+	•	Preserve original working directory when relaunching
+	•	Handle User Account Control (UAC) prompts gracefully
+Logging Requirements:
+	•	Implement real-time JSON logging to ./logs/setup_log_[timestamp].json
+	•	Log structure should include:
+	•	Timestamp for each action
+	•	Action type (info, success, warning, error)
+	•	Step description
+	•	Result/output
+	•	Error details (if any)
+	•	Duration for each major step
+	•	Current working directory for debugging
+	•	Package manager used (UV or pip)
+	•	Console output should mirror the log with color coding (green for success, yellow for warnings, red for errors)
+Error Handling:
+	•	Try-catch blocks around all major operations
+	•	Rollback capability if setup fails mid-process
+	•	Clear error messages with suggested fixes
+	•	Validation checks before proceeding to next step
+	•	Handle permission denied errors gracefully
+	•	Handle UV installation failures with fallback to pip
+Additional Features:
+	•	Progress indicators showing percentage completion
+	•	Option to accept parameters for custom folder names, Python version, or dependencies
+	•	Check for existing environment and ask whether to overwrite or skip
+	•	Generate a setup summary report at the end
+	•	Optional: Create desktop shortcuts or VS Code workspace file
+	•	Pause at end so user can read final output before window closes
+Script should be:
+	•	Well-commented explaining each section
+	•	Modular with functions for each major task
+	•	Compatible with PowerShell 5.1 and 7+
+	•	Include execution policy bypass instructions as comments at the top
+	•	Use $PSScriptRoot for all path operations
+	•	Self-contained with no external dependencies beyond Python (will install UV automatically)
+Script Header Requirements:
+	•	Clear instructions on how to run the script
+	•	Explanation that script should be placed in project root folder
+	•	Execution policy bypass command if needed
+	•	Administrator requirements notice
+	•	Note about UV package manager usage and automatic installation
+Please provide the complete, production-ready script with all error handling, admin elevation, relative path handling, UV integration, and logging implemented.
